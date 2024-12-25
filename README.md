@@ -1,0 +1,2 @@
+This is my first attempt at a coding project on my return to coding. It is a turn based football game which is inspired by chess. Like chess, in this game the two players can see what the opponent can do with their available moves and has to predict how they will react or play and manage your play based on that.
+Right now the focus is to create a version where the game can be played with two people using the same system in a pass and play mode. The online version will be added in the future.

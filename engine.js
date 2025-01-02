@@ -3,7 +3,7 @@ const formTeam2 = [1,1,2,2,3,3,4,4,5,5,6,6,7,7,8,8,9,9,10,10];//inside main
 const teamOne = [];
 const teamTwo = [];
 var idRoler=[];
-var rebound, attempt,currentPossession; 
+var currentPossession; 
 var availManage=false;
 var teamBlueFormation;
 var teamRedFormation;
@@ -289,6 +289,8 @@ function enterNames() {
 
 function tosser() {
     document.getElementById("flex-container3").style.visibility='hidden';
+    let j=document.getElementsByClassName("drawoptions");
+    for(let i=0;i<j.length;i++) {j[i].style.visibility="hidden";}
 let x=Math.floor(Math.random() * 2);
 if(x==1) {
 	document.getElementById("tossteam").innerHTML = teamBlueName;
@@ -345,21 +347,23 @@ else {
 }
 
 function resulter(result){
-let i=document.getElementById("flex-container3");
-i.style.visibility = "visible";
-if(result==0) {
+    let i=document.getElementById("flex-container3");
+    if(result==0) {
 	document.getElementById("result").innerHTML="It is a draw";
 	i.style.backgroundColor = "black";
+    let j=document.getElementsByClassName("drawoptions");
+    for(let i=0;i<j.length;i++) {j[i].style.visibility="visible";}
 	}
 else if(result==1) {
-	document.getElementById("winteam").innerHTML=teamBlueName + " ";
+	document.getElementById("result").innerHTML=teamBlueName + " won the match!";
 	i.style.backgroundColor = "blue";
 	}
 else if(result==2) {
-	document.getElementById("winteam").innerHTML=teamRedName + " ";
+	document.getElementById("result").innerHTML=teamRedName + " won the match!";
 	i.style.backgroundColor = "red";
 	}
 document.getElementById("finalscore").innerHTML=blueScore+':'+redScore;
+i.style.visibility = "visible";
 }
 
 function setForm(team) {
@@ -551,7 +555,7 @@ function buildpressPhase(team){
     if((half==1)&&(crntTime>=45)) {halfTime();}
     else if((half==2)&&(crntTime>=90)) {fullTime();}
     else if((half==3)&&(crntTime>=105)) {extraHalfTime();}
-    else if((half==4)&&(crntTime<=120)) {extraFullTime();}
+    else if((half==4)&&(crntTime>=120)) {extraFullTime();}
     else if(team==1){
         for(let i=0;i<11;i++) {
             document.getElementById(teamOne[i].positionID).setAttribute("onclick", "");
@@ -584,8 +588,7 @@ function buildpressPhase(team){
         document.getElementById("guider").showModal();
         document.getElementById('bluemanage').style.visibility='hidden';
         document.getElementById('redmanage').style.visibility='hidden';
-        timeCount();
-        attempt=0;        
+        timeCount();        
         createcontainPhase(1);
         }
     }
@@ -622,7 +625,6 @@ function buildpressPhase(team){
         document.getElementById('bluemanage').style.visibility='hidden';
         document.getElementById('redmanage').style.visibility='hidden';
         timeCount();    
-        attempt=0;
         createcontainPhase(2);
         }
     }
@@ -678,7 +680,7 @@ function pressMove(team, id) {
             else {teamOne[i].lastUser=false;}
             document.getElementById(teamOne[i].positionID).setAttribute("onclick","");
         }
-        if(attacker>defender) {timeCount(); attempt=0; createcontainPhase(2);}
+        if(attacker>defender) {timeCount(); createcontainPhase(2);}
         else if(attacker==defender) {timeCount();buildpressPhase(2);}
         else { timeCount();
             buildpressPhase(1);
@@ -694,7 +696,7 @@ function pressMove(team, id) {
             else {teamTwo[i].lastUser=false;}
             document.getElementById(teamTwo[i].positionID).setAttribute("onclick","");          
         }
-        if(attacker>defender) {timeCount(); attempt=0; createcontainPhase(1);}
+        if(attacker>defender) {timeCount(); createcontainPhase(1);}
         else if(attacker==defender) {timeCount();buildpressPhase(1);}
         else { timeCount();
             buildpressPhase(2);
@@ -734,7 +736,6 @@ function createcontainPhase(team) {
         document.getElementById("guiderText").innerHTML = "No players available to defend. Next phase!";
         document.getElementById("guider").showModal();    
         timeCount();
-        rebound=false;
         finishsavePhase(1);
         }
     }
@@ -766,7 +767,6 @@ function createcontainPhase(team) {
             document.getElementById("guiderText").innerHTML = "No players available to defend. Next phase!";
             document.getElementById("guider").showModal();            
         timeCount();
-        rebound=false;    
         finishsavePhase(2);
         }    
     }
@@ -818,8 +818,8 @@ function containMove(team, id) {
             else {teamOne[i].lastUser=false;}
             document.getElementById(teamOne[i].positionID).setAttribute("onclick","");
         }
-        if(attacker>defender) {timeCount();rebound=false;finishsavePhase(2);}
-        else if((attacker==defender)&&(attempt<2)) {attempt++; timeCount(); createcontainPhase(2);}
+        if(attacker>defender) {timeCount(); finishsavePhase(2);}
+        else if(attacker==defender) {timeCount(); createcontainPhase(2);}
         else { timeCount();
             buildpressPhase(1);
             }
@@ -834,8 +834,8 @@ function containMove(team, id) {
             else {teamTwo[i].lastUser=false;}
             document.getElementById(teamTwo[i].positionID).setAttribute("onclick","");          
         }
-        if(attacker>defender) {timeCount();rebound=false;finishsavePhase(1);}
-        else if((attacker==defender)&&(attempt<2)) {timeCount();attempt++; createcontainPhase(1);}
+        if(attacker>defender) {timeCount(); finishsavePhase(1);}
+        else if(attacker==defender) {timeCount(); createcontainPhase(1);}
         else { timeCount();
             buildpressPhase(2);
             }
@@ -872,13 +872,19 @@ function finishsavePhase(team) {
         buildpressPhase(2);        
         }
         if(anyDefender==false) {
-            document.getElementById("guiderText").innerHTML = "Goalkeeper not able to save. Goal!";
-            document.getElementById("guider").showModal();        
-            blueScore++;
-            document.getElementById("guiderText").innerHTML = "!!!GOAL!!!";
-            let s=document.getElementById("guider");
-            s.style.backgroundColor="blue";
-            s.showModal();            
+            let u=Math.floor(Math.random()*2);
+            if(u==0) {
+                document.getElementById("guiderText").innerHTML = "Goalkeeper not able";
+                document.getElementById("guider").showModal();
+                document.getElementById("guiderText").innerHTML = "!!!Missed!!!";
+                document.getElementById("guider").showModal();
+            }
+            else {
+                document.getElementById("guiderText").innerHTML = "Goalkeeper not able";
+                document.getElementById("guider").showModal();
+                blueScore++;
+                document.getElementById("guiderText").innerHTML = "!!!GOAL!!!";
+                document.getElementById("guider").showModal();}
             timeCount();
             buildpressPhase(2);
         }
@@ -908,13 +914,20 @@ function finishsavePhase(team) {
         buildpressPhase(1);        
         }
         if(anyDefender==false) {
-            document.getElementById("guiderText").innerHTML = "Goalkeeper not able to save. Goal!";
-            document.getElementById("guider").showModal();                
+            let u=Math.floor(Math.random()*2);
+            if(u==0) {
+                document.getElementById("guiderText").innerHTML = "Goalkeeper not able";
+                document.getElementById("guider").showModal();
+                document.getElementById("guiderText").innerHTML = "!!!Missed!!!";
+                document.getElementById("guider").showModal();
+            }
+            else {
+            document.getElementById("guiderText").innerHTML = "Goalkeeper not able.";
+            document.getElementById("guider").showModal(); 
             redScore++;
             document.getElementById("guiderText").innerHTML = "!!!GOAL!!!";
-            let s=document.getElementById("guider");
-            s.style.backgroundColor="red";
-            s.showModal();
+            document.getElementById("guider").showModal();
+            }
             timeCount();
             buildpressPhase(1);
         }
@@ -953,43 +966,41 @@ function finishMove(team, id) {
 function saveMove(team) {
     playersDisplay();
     if(team==1){    
-        for(let i=0;i<11;i++) {
+        for(let i=1;i<11;i++) {
             teamOne[i].lastUser=false;
             document.getElementById(teamOne[i].positionID).setAttribute("onclick","");
         }
         defender=teamOne[0].formValue;
+        teamOne[0].lastUser=true;
         if(teamOne[0].health!=0) {teamOne[0].health--;}
         if(attacker>defender) {
             redScore++;
             document.getElementById("guiderText").innerHTML = "!!!GOAL!!!";
-            let s=document.getElementById("guider");
-            s.style.backgroundColor="red";
-            s.showModal();
+            document.getElementById("guider").showModal();
             timeCount();
             buildpressPhase(1);
         }
-        else if((attacker==defender)&&(rebound==false)) {timeCount();rebound=true;finishsavePhase(2);}
+        else if(attacker==defender) {timeCount(); finishsavePhase(2);}
         else { timeCount();
             buildpressPhase(1);
             }
     }
     else if(team==2){
-        for(let i=0;i<11;i++) {
+        for(let i=1;i<11;i++) {
             teamTwo[i].lastUser=false;
             document.getElementById(teamTwo[i].positionID).setAttribute("onclick","");
         }
         defender=teamTwo[0].formValue;
+        teamTwo[0].lastUser=true;
         if(teamTwo[0].health!=0) {teamTwo[0].health--;}
         if(attacker>defender) {
             blueScore++;
             document.getElementById("guiderText").innerHTML = "!!!GOAL!!!";
-            let s=document.getElementById("guider");
-            s.style.backgroundColor="blue";
-            s.showModal();
+            document.getElementById("guider").showModal();
             timeCount();
             buildpressPhase(2);
         }
-        else if((attacker==defender)&&(rebound==false)) {timeCount();rebound=true;finishsavePhase(1);}
+        else if(attacker==defender) {timeCount(); finishsavePhase(1);}
         else { timeCount();
                 buildpressPhase(2);
             }
@@ -999,8 +1010,8 @@ function saveMove(team) {
 function refresh(session) {
 if(session==1) {
     for(let i=0;i<11;i++) {
-        if(teamOne[i].health!=10) {teamOne[i].health++; teamOne[i].playtime=0; teamOne[i].lastUser=false;}
-        if(teamTwo[i].health!=10) {teamTwo[i].health++;teamTwo[i].playtime=0; teamTwo[i].lastUser=false;}
+        if(teamOne[i].health!=10) {teamOne[i].health++; teamOne[i].lastUser=false;}
+        if(teamTwo[i].health!=10) {teamTwo[i].health++; teamTwo[i].lastUser=false;}
     }
 }
 else {
@@ -1099,16 +1110,15 @@ function halfTime() {
 function fullTime() {                
     if(blueScore>redScore) {resulter(1);}
     else if(redScore>blueScore) {resulter(2);}
-    else {resulter(0);}
-}
-
-function extratime() {
-    crntTime=90;
-    refresh(2);
-    half=3;
-    document.getElementById('bluemanage').style.visibility='visible';
-    document.getElementById('redmanage').style.visibility='visible';
-    availManage=false;
+    else {
+        crntTime=90;
+        refresh(2);
+        half=3;
+        document.getElementById('bluemanage').style.visibility='visible';
+        document.getElementById('redmanage').style.visibility='visible';//check these
+        availManage=false;
+        resulter(0);
+    }
 }
 
 function extraHalfTime() {
@@ -1131,6 +1141,10 @@ function extraFullTime() {
 }
 
 function subAndRole(team) {
+    for(let i=0;i<11;i++) {
+        document.getElementById(teamOne[i].positionID).setAttribute('onclick', '');
+        document.getElementById(teamTwo[i].positionID).setAttribute('onclick', '');
+    }
     let x=document.getElementById("roler");
     let y=document.getElementById("sub");
     let z=document.getElementById("cont");

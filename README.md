@@ -77,6 +77,20 @@ Added a dialog box to notify players with different stages of the game.
 Added notifications for denoting phases of the play.
 Fixed players display in substitution page, half time screen, iamselected option and subs left issue, hide formation dropdown during role setup. Fixes in displaying and hiding screens. Added phase guide.
 
-Todo
-event notifications background color black
-extratime not triggering
+29 December 2024
+Done event notifications background color issue and extratime not triggering issue.
+
+2 January2025
+Removed rebound and attempt limits and added last user for goalkeepers as well. When there is a situation of unavailability of goalkeeper, the goal is random with 50-50 chance.
+Removed onclicks when opening manage
+Removed the playtime reset in halftime.
+Fixed the extratime issue
+
+TODO
+goal during half time not showing
+Flashing notes
+fix teamname
+remove manage buttons on clicking proceed
+remove build during manage
+iam selected in sub limit
+add delays

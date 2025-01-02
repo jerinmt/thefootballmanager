@@ -124,10 +124,11 @@
 			visibility: hidden;
 			position:absolute;
 			justify-content: center;
-			z-index:5;
+			z-index:0;
 			top: 50%;
 			left:50%;
-			transform: translate(-50%,-50%);	
+			transform: translate(-50%,-50%);
+			padding:0px;
 		}
 		#proceed {
 			visibility: hidden;
@@ -139,7 +140,16 @@
 			left:50%;
 			transform: translate(-50%,-50%);	
 		}
+		#phaseGuideText {
+			color:white;
+			background-color: black;
+			font-size: 125%;
+			margin: 0px;
+		}	
 		@media only screen and (orientation:landscape) {
+			#phaseGuideText {
+			font-size: 175%;
+			}	
 			#phaseGuide {
 				writing-mode:vertical-lr;
 				text-orientation: upright;
@@ -276,19 +286,19 @@
 	</div>
 
 	<div class="flex-container2">
-		<div><h1 style="color:white;"><span id="tossteam">X </span> won the toss</h1></div>
+		<div><h2 style="color:white;"><span id="tossteam">X </span> won the toss</h2></div>
 		<div><button type="button" onclick="gameStart(1);">Blue Kick Off</button></div><br>
 		<div><button type="button" onclick="gameStart(2);">Red Kick Off</button></div><br>
 	</div>
 
 	<div id="flex-container3">
-		<div><h1 id="result" style="color:white;"><span id="winteam">X </span>won the match</h1>
+		<div><h3 id="result" style="color:white;"></h3>
 		</div>
 		<div><h1 id="finalscore" style="color:white;">0:0</h1></div><br>
-		<div>
+		<div style="text-align: center;">
 			<button type="button">Replay</button>
-			<button type="button" onclick="tosser();">Extratime</button>
-			<button type="button" onclick="quickPS();">Penalties</button>
+			<button type="button" class="drawoptions" onclick="tosser();" style="visibility:hidden;">Extratime</button>
+			<button type="button" class="drawoptions" onclick="quickPS();" style="visibility:hidden;">Penalties</button>
 		</div><br>
 	</div>
 
@@ -388,7 +398,7 @@
 		<p id="guiderText" style="color:white;"></p>
 		<button type="button" onclick="document.getElementById('guider').close();">OK</button>
 	</dialog>
-	<div id="phaseGuide"><p id="phaseGuideText" style="color:white; background-color: black; font-size: 175%;">Kick Off</p></div>
+	<div id="phaseGuide"><p id="phaseGuideText">Kick Off</p></div>
 	<button type="button" id="proceed" onclick="buildpressPhase(secondhalfstarter);">Proceed</button>
 	<script src="engine.js"></script>
 </body>

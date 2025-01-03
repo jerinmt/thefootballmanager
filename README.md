@@ -86,11 +86,14 @@ Removed onclicks when opening manage
 Removed the playtime reset in halftime.
 Fixed the extratime issue
 
+3 January2025
+Removed manage buttons on clicking proceed
+Removed build notification during manage
+Added the flashing notes
+Changed the rebound mechanics instead of the delay
+Centered the replay button
+Checked everything
+
 TODO
-goal during half time not showing
-Flashing notes
-fix teamname
-remove manage buttons on clicking proceed
-remove build during manage
-iam selected in sub limit
-add delays
+ball action
+create game class to encapsulate

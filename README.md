@@ -95,7 +95,5 @@ Centered the replay button
 Checked everything
 
 TODO
-ball action
-create game class to encapsulate
 edit tutorial
 edit intro

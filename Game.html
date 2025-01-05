@@ -33,12 +33,6 @@
 		.plyr {	display:flex;
 			visibility:hidden;
 		}
-		#ball{
-			position:absolute;
-			z-index:1;
-			top: 46%;
-			left:48%;
-		}
 		#flex-container {
 			display:flex;
 			visibility:visible;
@@ -82,8 +76,9 @@
 			flex-direction:column;
 			background-color:black;
 			padding-bottom: 10px;
+			border: blue 5px solid;
 		}
-		.flex-container4 {
+		#flex-container4 {
 			display:flex;
 			visibility:hidden;
 			justify-content:center;
@@ -96,6 +91,7 @@
 			width:70%;
 			flex-direction:column;
 			background-color:black;
+			border: blue 5px solid;
 		}
 		input[type=button] {
 			background-color: black;
@@ -158,10 +154,13 @@
 		}
 		#flasherstext {
 			color:white;
-			font-size:600%;
+			font-size:575%;
 			margin: 0px;
 		}
 		@media only screen and (orientation:landscape) {
+			#flasherstext {
+			font-size:700%;
+			}
 			#phaseGuideText {
 			font-size: 175%;
 			}	
@@ -198,12 +197,6 @@
 			.f1, .f2 {
 				rotate:270deg;
 			}
-			#ball{
-				position:absolute;
-				z-index:1;
-				top: 46%;
-				left:49.5%;
-			}
 			.flex-container2 {
 				width:50%;
 			}
@@ -213,7 +206,7 @@
 			#flex-container3 {
 				width:40%;
 			}
-			.flex-container4 {
+			#flex-container4 {
 				width:40%;
 			}
 		}
@@ -285,7 +278,6 @@
 
 		<div class="plyr t2 g2" id="redgk" onclick=""><h3 style="color:#00FF00; background-color:black; visibility:hidden;">09</h3><img src="images/reds.svg"></img><h3 style="color:white; background-color:black; visibility:hidden;">09</h3></div>
 	</div>
-	<p id="ball">&#9917</p>
 	<div id="flex-container">
   		<div class="item1"><h1 style="color:white;">GET READY!!!</h1></div>
   		<div class="item2"><form>
@@ -296,14 +288,14 @@
 			</form>
 		</div>
 		<br><br>
-  		<div class="item3"><input type="button" value="&#9917" onclick="enterNames();"></div>
+  		<div class="item3"><input type="button" value="&#9917" onclick="main.enterNames();"></div>
 		<br>
 	</div>
 
 	<div class="flex-container2">
 		<div><h2 style="color:white;"><span id="tossteam">X </span> won the toss</h2></div>
-		<div><button type="button" onclick="gameStart(1);">Blue Kick Off</button></div><br>
-		<div><button type="button" onclick="gameStart(2);">Red Kick Off</button></div><br>
+		<div><button type="button" onclick="main.gameStart(1);">Blue Kick Off</button></div><br>
+		<div><button type="button" onclick="main.gameStart(2);">Red Kick Off</button></div><br>
 	</div>
 
 	<div id="flex-container3">
@@ -312,9 +304,9 @@
 		</div>
 		<div><h1 id="finalscore" style="color:white;">0:0</h1></div><br>
 		<div style="text-align: center;">
-			<button type="button" class="drawoptions" onclick="tosser();" style="visibility:hidden;">Extratime</button>
-			<button type="button" class="drawoptions" onclick="quickPS();" style="visibility:hidden;">Penalties</button>
-			<br><button type="button">Replay</button>
+			<button type="button" class="drawoptions" onclick="main.tosser(); main.et();" style="visibility:hidden;">Extratime</button>
+			<button type="button" class="drawoptions" onclick="main.quickPS();" style="visibility:hidden;">Penalties</button>
+			<br><button type="button" onclick="window.location.reload();">Replay</button>
 		</div>
 	</div>
 
@@ -354,7 +346,7 @@
 				<option value="C">Create</option>		
 			</select>
 		</form><br>
-		<button type="button" onclick="document.getElementById('defrole').close(); updateRoles();">Update</button>
+		<button type="button" onclick="document.getElementById('defrole').close(); main.updateRoles();">Update</button>
 	</dialog>
 	<dialog class="role" id="midrole">
 		<p style="color:white;"><b><u>Fixed Roles</b></u><br>Build-up<br>Create</p>
@@ -367,7 +359,7 @@
 				<option value="F">Finish</option>		
 			</select>
 		</form><br>
-		<button type="button" onclick="document.getElementById('midrole').close(); updateRoles();">Update</button>
+		<button type="button" onclick="document.getElementById('midrole').close(); main.updateRoles();">Update</button>
 	</dialog>	
 	<dialog class="role" id="fwdrole">
 		<p style="color:white;"><b><u>Fixed Role</b></u><br>Finish</p>
@@ -386,7 +378,7 @@
 				<option value="C">Create</option>		
 			</select>
 		</form><br>
-		<button type="button" onclick="document.getElementById('fwdrole').close(); updateRoles();">Update</button>
+		<button type="button" onclick="document.getElementById('fwdrole').close(); main.updateRoles();">Update</button>
 	</dialog>
 	
 	<table id="scorecard" style="font-size:200%; position:absolute; top:3%; left:4%; background-color:black;">
@@ -398,25 +390,25 @@
 		</tr>
 	</table>
 
-	<div class="flex-container4">
+	<div id="flex-container4">
 		<div><h1 style="color:white;">Penalty Shootout</h1></div>
 		<div><h1 style="color:white;"><span id="ppena" style="color:blue;">0</span>-<span id="opena" style="color:red;">0</span></h1></div>
 		<div>
 			<h2 id="SD" style="color:white; visibility:hidden;">After Sudden Death <span id="ppena1" style="color:blue;">0</span>-<span id="opena1" style="color:red;">0</span></h2>
 		</div>
 		<div><h1 id="penaltywinner" style="color:white;"></h1></div>
-		<br>
+		<br><button type="button" onclick="window.location.reload();">Replay</button>
 	</div>
 
-	<button type="button" id="redmanage" onclick="subAndRole(2);" style="visibility:hidden; font-size:150%; position:absolute; z-index:2; bottom:3%; right:4%; color:white; background-color:red;">Manage</button>
-	<button type="button" id="bluemanage" onclick="subAndRole(1);" style="visibility:hidden; font-size:150%; position:absolute; z-index:2; bottom:3%; left:4%; color:white; background-color:blue;">Manage</button>
+	<button type="button" id="redmanage" onclick="main.subAndRole(2);" style="visibility:hidden; font-size:150%; position:absolute; z-index:2; bottom:3%; right:4%; color:white; background-color:red;">Manage</button>
+	<button type="button" id="bluemanage" onclick="main.subAndRole(1);" style="visibility:hidden; font-size:150%; position:absolute; z-index:2; bottom:3%; left:4%; color:white; background-color:blue;">Manage</button>
 	<dialog id="guider">
 		<p id="guiderText" style="color:white;"></p>
 		<button type="button" onclick="document.getElementById('guider').close();">OK</button>
 	</dialog>
 	<div id="phaseGuide"><p id="phaseGuideText"></p></div>
-	<button type="button" id="proceed" style="color:white; background-color:black;" onclick="manageClearer(); buildpressPhase(secondhalfstarter);">Start Next Half</button>
-	<script src="engine.js"></script>
+	<button type="button" id="proceed" style="color:white; background-color:black;" onclick="main.manageClearer(); buildpressPhase(secondhalfstarter);">Next Half</button>
 	<div id="flashers"><h1 id="flasherstext">MISS</h1></div>
+	<script src="engine.js"></script>
 </body>
 </html>

@@ -94,6 +94,9 @@ Changed the rebound mechanics instead of the delay
 Centered the replay button
 Checked everything
 
-TODO
-edit tutorial
-edit intro
+5 January 2025
+To protect the properties, tried implementing a class but didn’t work. Need to change the entire architecture. Instead used function closures.
+Fixed small bugs.
+Edited tutorial
+Edited intro
+Completed project, but open to further ideas if any

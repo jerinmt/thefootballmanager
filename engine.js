@@ -1,64 +1,18 @@
-const formTeam1 = [1,1,2,2,3,3,4,4,5,5,6,6,7,7,8,8,9,9,10,10];
-const formTeam2 = [1,1,2,2,3,3,4,4,5,5,6,6,7,7,8,8,9,9,10,10];
-const teamOne = [];
-const teamTwo = [];
-var idRoler=[];
-var currentPossession; 
-var availManage=false;
-var teamBlueFormation;
-var teamRedFormation;
-var teamRedSubs=3, teamBlueSubs=3;
-var teamBlueName="Blue";
-var teamRedName="Red";
-var blueScore=0, redScore=0;
-var crntTime=0;
-var secondhalfstarter;
-var injuryTime=0;
-var half=1;
-var attacker, defender;
-var anyAttacker, anyDefender;
-const blueMap = new Map([
-[541, ['bluegk', 'bluewb1', 'bluecsb1', 'bluecb', 'bluecsb2', 'bluewb2', 'bluesm1', 'bluescm1', 'bluescm2', 'bluesm2', 'bluecf']],
-[532, ['bluegk', 'bluewb1', 'bluecsb1', 'bluecb', 'bluecsb2', 'bluewb2', 'bluecsm1', 'bluecm', 'bluecsm2', 'bluescf1', 'bluescf2']],
-[523, ['bluegk', 'bluewb1', 'bluecsb1', 'bluecb', 'bluecsb2', 'bluewb2', 'bluescm1', 'bluescm2', 'bluecsf1', 'bluecf', 'bluecsf2']], 
-[451, ['bluegk', 'bluesb1', 'bluescb1', 'bluescb2', 'bluesb2', 'bluewm1', 'bluecsm1', 'bluecm', 'bluecsm2', 'bluewm2', 'bluecf']],
-[442, ['bluegk', 'bluesb1', 'bluescb1', 'bluescb2', 'bluesb2', 'bluesm1', 'bluescm1', 'bluescm2', 'bluesm2', 'bluescf1', 'bluescf2']],
-[433, ['bluegk', 'bluesb1', 'bluescb1', 'bluescb2', 'bluesb2', 'bluecsm1', 'bluecm', 'bluecsm2', 'bluecsf1', 'bluecf', 'bluecsf2']],
-[424, ['bluegk', 'bluesb1', 'bluescb1', 'bluescb2', 'bluesb2', 'bluescm1',  'bluescm2', 'bluesf1', 'bluescf1', 'bluescf2', 'bluesf2']],
-[352, ['bluegk', 'bluecsb1', 'bluecb', 'bluecsb2', 'bluewm1', 'bluecsm1', 'bluecm', 'bluecsm2', 'bluewm2', 'bluescf1', 'bluescf2']],
-[343, ['bluegk', 'bluecsb1', 'bluecb', 'bluecsb2', 'bluesm1', 'bluescm1', 'bluescm2', 'bluesm2', 'bluecsf1', 'bluecf', 'bluecsf2']],
-[334, ['bluegk', 'bluecsb1', 'bluecb', 'bluecsb2', 'bluecsm1', 'bluecm', 'bluecsm2', 'bluesf1', 'bluescf1', 'bluescf2', 'bluesf2']],
-[325, ['bluegk', 'bluecsb1', 'bluecb', 'bluecsb2', 'bluescm1', 'bluescm2', 'bluewf1', 'bluecsf1', 'bluecf', 'bluecsf2', 'bluewf2']]
-]);
-
-const redMap = new Map([
-[541, ['redgk', 'redwb1', 'redcsb1', 'redcb', 'redcsb2', 'redwb2', 'redsm1', 'redscm1', 'redscm2', 'redsm2', 'redcf']],
-[532, ['redgk', 'redwb1', 'redcsb1', 'redcb', 'redcsb2', 'redwb2', 'redcsm1', 'redcm', 'redcsm2', 'redscf1', 'redscf2']],
-[523, ['redgk', 'redwb1', 'redcsb1', 'redcb', 'redcsb2', 'redwb2', 'redscm1', 'redscm2', 'redcsf1', 'redcf', 'redcsf2']], 
-[451, ['redgk', 'redsb1', 'redscb1', 'redscb2', 'redsb2', 'redwm1', 'redcsm1', 'redcm', 'redcsm2', 'redwm2', 'redcf']],
-[442, ['redgk', 'redsb1', 'redscb1', 'redscb2', 'redsb2', 'redsm1', 'redscm1', 'redscm2', 'redsm2', 'redscf1', 'redscf2']],
-[433, ['redgk', 'redsb1', 'redscb1', 'redscb2', 'redsb2', 'redcsm1', 'redcm', 'redcsm2', 'redcsf1', 'redcf', 'redcsf2']],
-[424, ['redgk', 'redsb1', 'redscb1', 'redscb2', 'redsb2', 'redscm1', 'redscm2', 'redsf1', 'redscf1', 'redscf2', 'redsf2']],
-[352, ['redgk', 'redcsb1', 'redcb', 'redcsb2', 'redwm1', 'redcsm1', 'redcm', 'redcsm2', 'redwm2', 'redscf1', 'redscf2']],
-[343, ['redgk', 'redcsb1', 'redcb', 'redcsb2', 'redsm1', 'redscm1', 'redscm2', 'redsm2', 'redcsf1', 'redcf', 'redcsf2']],
-[334, ['redgk', 'redcsb1', 'redcb', 'redcsb2', 'redcsm1', 'redcm', 'redcsm2', 'redsf1', 'redscf1', 'redscf2', 'redsf2']],
-[325, ['redgk', 'redcsb1', 'redcb', 'redcsb2', 'redscm1', 'redscm2', 'redwf1', 'redcsf1', 'redcf', 'redcsf2', 'redwf2']]
-]);
-
-function randomForm() {
-  for (let i=19;i>0;i--) {
-      let j = Math.floor(Math.random() * (i+1));
-      let k = formTeam1[i];
-      formTeam1[i] = formTeam1[j];
-      formTeam1[j] = k;
-      let l = Math.floor(Math.random() * (i+1));
-      let m = formTeam2[i];
-      formTeam2[i] = formTeam2[l];
-      formTeam2[l] = m;
-      }
+let secondhalfstarter;
+let teamBlueFormation;
+let teamRedFormation;
+function unavailable(myid) {
+  let x=document.getElementById(myid);
+  x.style.opacity = "0.3";
 }
+    
+function iamavailable(myid) {
+    let x=document.getElementById(myid);
+    x.style.opacity = "1";
+    }
+ 
 class player {
-    constructor(team,numbr,posn,formation) {
+    constructor(team,numbr,posn,formation,formTeam) {
 		this.team=team;
 		this.number=numbr-1;
 		if(team==1) {
@@ -89,13 +43,9 @@ class player {
         this.playtime=0;
 		this.lastUser=false;
 		this.available=true;
-		if (team==1) {
-			this.formValue= formTeam1.pop();
-		}
-		else {
-			this.formValue=formTeam2.pop();
-		}
+		this.formValue=formTeam.pop();
 	}
+       
     displaySelfer() {
         let x=document.getElementById(this.positionID);
         iamavailable(this.positionID);        
@@ -109,12 +59,61 @@ class player {
         x.childNodes[2].style.visibility="visible";
     }
 }
+const blueMap = new Map([
+    [541, ['bluegk', 'bluewb1', 'bluecsb1', 'bluecb', 'bluecsb2', 'bluewb2', 'bluesm1', 'bluescm1', 'bluescm2', 'bluesm2', 'bluecf']],
+    [532, ['bluegk', 'bluewb1', 'bluecsb1', 'bluecb', 'bluecsb2', 'bluewb2', 'bluecsm1', 'bluecm', 'bluecsm2', 'bluescf1', 'bluescf2']],
+    [523, ['bluegk', 'bluewb1', 'bluecsb1', 'bluecb', 'bluecsb2', 'bluewb2', 'bluescm1', 'bluescm2', 'bluecsf1', 'bluecf', 'bluecsf2']], 
+    [451, ['bluegk', 'bluesb1', 'bluescb1', 'bluescb2', 'bluesb2', 'bluewm1', 'bluecsm1', 'bluecm', 'bluecsm2', 'bluewm2', 'bluecf']],
+    [442, ['bluegk', 'bluesb1', 'bluescb1', 'bluescb2', 'bluesb2', 'bluesm1', 'bluescm1', 'bluescm2', 'bluesm2', 'bluescf1', 'bluescf2']],
+    [433, ['bluegk', 'bluesb1', 'bluescb1', 'bluescb2', 'bluesb2', 'bluecsm1', 'bluecm', 'bluecsm2', 'bluecsf1', 'bluecf', 'bluecsf2']],
+    [424, ['bluegk', 'bluesb1', 'bluescb1', 'bluescb2', 'bluesb2', 'bluescm1',  'bluescm2', 'bluesf1', 'bluescf1', 'bluescf2', 'bluesf2']],
+    [352, ['bluegk', 'bluecsb1', 'bluecb', 'bluecsb2', 'bluewm1', 'bluecsm1', 'bluecm', 'bluecsm2', 'bluewm2', 'bluescf1', 'bluescf2']],
+    [343, ['bluegk', 'bluecsb1', 'bluecb', 'bluecsb2', 'bluesm1', 'bluescm1', 'bluescm2', 'bluesm2', 'bluecsf1', 'bluecf', 'bluecsf2']],
+    [334, ['bluegk', 'bluecsb1', 'bluecb', 'bluecsb2', 'bluecsm1', 'bluecm', 'bluecsm2', 'bluesf1', 'bluescf1', 'bluescf2', 'bluesf2']],
+    [325, ['bluegk', 'bluecsb1', 'bluecb', 'bluecsb2', 'bluescm1', 'bluescm2', 'bluewf1', 'bluecsf1', 'bluecf', 'bluecsf2', 'bluewf2']]
+]);
+    
+const redMap = new Map([
+    [541, ['redgk', 'redwb1', 'redcsb1', 'redcb', 'redcsb2', 'redwb2', 'redsm1', 'redscm1', 'redscm2', 'redsm2', 'redcf']],
+    [532, ['redgk', 'redwb1', 'redcsb1', 'redcb', 'redcsb2', 'redwb2', 'redcsm1', 'redcm', 'redcsm2', 'redscf1', 'redscf2']],
+    [523, ['redgk', 'redwb1', 'redcsb1', 'redcb', 'redcsb2', 'redwb2', 'redscm1', 'redscm2', 'redcsf1', 'redcf', 'redcsf2']], 
+    [451, ['redgk', 'redsb1', 'redscb1', 'redscb2', 'redsb2', 'redwm1', 'redcsm1', 'redcm', 'redcsm2', 'redwm2', 'redcf']],
+    [442, ['redgk', 'redsb1', 'redscb1', 'redscb2', 'redsb2', 'redsm1', 'redscm1', 'redscm2', 'redsm2', 'redscf1', 'redscf2']],
+    [433, ['redgk', 'redsb1', 'redscb1', 'redscb2', 'redsb2', 'redcsm1', 'redcm', 'redcsm2', 'redcsf1', 'redcf', 'redcsf2']],
+    [424, ['redgk', 'redsb1', 'redscb1', 'redscb2', 'redsb2', 'redscm1', 'redscm2', 'redsf1', 'redscf1', 'redscf2', 'redsf2']],
+    [352, ['redgk', 'redcsb1', 'redcb', 'redcsb2', 'redwm1', 'redcsm1', 'redcm', 'redcsm2', 'redwm2', 'redscf1', 'redscf2']],
+    [343, ['redgk', 'redcsb1', 'redcb', 'redcsb2', 'redsm1', 'redscm1', 'redscm2', 'redsm2', 'redcsf1', 'redcf', 'redcsf2']],
+    [334, ['redgk', 'redcsb1', 'redcb', 'redcsb2', 'redcsm1', 'redcm', 'redcsm2', 'redsf1', 'redscf1', 'redscf2', 'redsf2']],
+    [325, ['redgk', 'redcsb1', 'redcb', 'redcsb2', 'redscm1', 'redscm2', 'redwf1', 'redcsf1', 'redcf', 'redcsf2', 'redwf2']]
+]);
+const main = (function() {
+const teamOne = [];
+const teamTwo = [];
+let idRoler=[];
+let currentPossession; 
+let availManage=false;
+let teamRedSubs=3, teamBlueSubs=3;
+let teamBlueName="Blue";
+let teamRedName="Red";
+let blueScore=0, redScore=0;
+let crntTime=0;
+let injuryTime=0;
+let half=1;
+let attacker, defender;
+let anyAttacker, anyDefender;
 
 function teamCreation(team) {
-	if(team==1) {
+    const formTeam = [1,1,2,2,3,3,4,4,5,5,6,6,7,7,8,8,9,9,10,10];
+    for (let i=19;i>0;i--) {
+        let j = Math.floor(Math.random() * (i+1));
+        let k = formTeam[i];
+        formTeam[i] = formTeam[j];
+        formTeam[j] = k;
+    }
+    if(team==1) {
 		let d, m, f;
         let frm=teamBlueFormation;
-		teamOne[0] = new player(1,1,1,teamBlueFormation);
+		teamOne[0] = new player(1,1,1,teamBlueFormation,formTeam);
 		f = frm % 10;
 		frm=(frm-f)/10;
 		m = frm % 10;
@@ -122,45 +121,44 @@ function teamCreation(team) {
 		d = frm;
 		for(let i=1;i<14;i++) {
      			if(i<=d) {
-       				teamOne[i] = new player(1,i+1,2,teamBlueFormation);
+       				teamOne[i] = new player(1,i+1,2,teamBlueFormation,formTeam);
       			}
 			else if(i<=d+m) {
-                				teamOne[i] = new player(1,i+1,3,teamBlueFormation);
+                				teamOne[i] = new player(1,i+1,3,teamBlueFormation,formTeam);
               			}
               			else if(i<=10) {
-                        			teamOne[i] = new player(1,i+1,4,teamBlueFormation);
+                        			teamOne[i] = new player(1,i+1,4,teamBlueFormation,formTeam);
                       		}  
                       		else {
-                         			teamOne[i] = new player(1,i+1,5,teamBlueFormation);
+                         			teamOne[i] = new player(1,i+1,5,teamBlueFormation,formTeam);
                       		}
-    		}console.log(teamOne);
+    		}
   	}
   	else if (team==2){
-    		let d,m,f;
-            let frm=teamRedFormation;
-    		teamTwo[0] = new player(2,1,1,teamRedFormation);
-    		f = frm % 10;
-		    frm=(frm-f)/10;
-		    m = frm % 10;
-		    frm=(frm-m)/10;
-		    d=frm;
-		    for(let i=1;i<14;i++) {
-			    if(i<=d) {
-			    	teamTwo[i] = new player(2,i+1,2,teamRedFormation);
-      		    	}
-      			else if(i<=d+m) {
-                				teamTwo[i] = new player(2,i+1,3,teamRedFormation);
-              			}
-              			else if(i<=10) {
-                        			teamTwo[i] = new player(2,i+1,4,teamRedFormation);
-                      		}  
-                      		else {
-                         			teamTwo[i] = new player(2,i+1,5,teamRedFormation);
-                      		}
-    		}console.log(teamTwo);
+    	let d,m,f;
+        let frm=teamRedFormation;
+    	teamTwo[0] = new player(2,1,1,teamRedFormation,formTeam);
+    	f = frm % 10;
+		frm=(frm-f)/10;
+		m = frm % 10;
+		frm=(frm-m)/10;
+		d=frm;
+		for(let i=1;i<14;i++) {
+		    if(i<=d) {
+		    	teamTwo[i] = new player(2,i+1,2,teamRedFormation,formTeam);
+        	}
+      		else if(i<=d+m) {
+                teamTwo[i] = new player(2,i+1,3,teamRedFormation,formTeam);
+    		}
+  			else if(i<=10) {
+                teamTwo[i] = new player(2,i+1,4,teamRedFormation,formTeam);
+        	}  
+            else {
+                teamTwo[i] = new player(2,i+1,5,teamRedFormation,formTeam);
+            }
+    	}
   	}
 }
-
 
 function displayer(team,formation) {
 	let x,d,m,f,p,q,r;
@@ -269,21 +267,12 @@ const y=x.getElementsByTagName("img");
 y[0].style.backgroundColor = "black";
 }
 
-function unavailable(myid) {
-let x=document.getElementById(myid);
-x.style.opacity = "0.3";
-}
-
-function iamavailable(myid) {
-let x=document.getElementById(myid);
-x.style.opacity = "1";
-}
-
 function enterNames() {
-    teamBlueName=document.getElementById("team1").value;
-    teamRedName=document.getElementById("team2").value;
+    let x=document.getElementById("team1").value;
+    let y=document.getElementById("team2").value;
+    if(x) {teamBlueName=x;}
+    if(y) {teamRedName=y;}
     document.getElementById("flex-container").style.visibility="hidden";
-    randomForm();
     setForm(1);
 }
 
@@ -307,9 +296,10 @@ y[0].style.backgroundColor="red";
 }
 
 function quickPS() {
+    manageClearer();
     document.getElementById("flex-container3").style.visibility='hidden';
-let i=document.getElementsByClassName("flex-container4");
-i[0].style.visibility = "visible";
+let i=document.getElementById("flex-container4");
+i.style.visibility = "visible";
 let amax=5,bmax=5,amin=0,bmin=0,z,x=1;
 while((amax>=bmin)&&(bmax>=amin)&&x<11) {
 	z=Math.floor(Math.random() * 2);
@@ -338,29 +328,37 @@ if(amin>bmin) {
 	let q=document.getElementById("penaltywinner");
 	q.innerHTML =teamBlueName +" won";
 	q.style.color="blue";
+    i.style.border = "blue 5px solid";
 }
 else {
 	let q=document.getElementById("penaltywinner");
 	q.innerHTML =teamRedName +" won";
 	q.style.color="red";
+    i.style.border = "red 5px solid";
 }
 }
-
+function et() {
+    document.getElementById('bluemanage').style.visibility='visible';
+    document.getElementById('redmanage').style.visibility='visible';
+    availManage=false;
+}
 function resulter(result){
     let i=document.getElementById("flex-container3");
     if(result==0) {
 	document.getElementById("result").innerHTML="It is a draw";
-	i.style.backgroundColor = "black";
+	i.style.border = "black 5px solid";
     let j=document.getElementsByClassName("drawoptions");
     for(let i=0;i<j.length;i++) {j[i].style.visibility="visible";}
 	}
 else if(result==1) {
+    manageClearer();
 	document.getElementById("result").innerHTML=teamBlueName + " won the match!";
-	i.style.backgroundColor = "blue";
+	i.style.border = "blue 5px solid";
 	}
 else if(result==2) {
+    manageClearer();
 	document.getElementById("result").innerHTML=teamRedName + " won the match!";
-	i.style.backgroundColor = "red";
+	i.style.border = "red 5px solid";
 	}
 document.getElementById("finalscore").innerHTML=blueScore+':'+redScore;
 i.style.visibility = "visible";
@@ -380,42 +378,44 @@ x.style.visibility ="visible";
 let y=document.getElementById("cont");
 y.style.visibility="visible";
 if(team==1) {
-	document.getElementById("formations").setAttribute("oninput", "teamBlueFormation=value-0; displayer(1,value);");
-y.setAttribute("onclick", "teamCreation(1); rolerSetup(1);");
+	document.getElementById("formations").setAttribute("oninput", "teamBlueFormation=value-0; main.displayer(1,value);");
+y.setAttribute("onclick", "main.teamCreation(1); main.rolerSetup(1);");
 }
 else if(team==2){
-	document.getElementById("formations").setAttribute("oninput", "teamRedFormation=value-0; displayer(2,value);");
-y.setAttribute("onclick", "teamCreation(2); rolerSetup(2);");
+	document.getElementById("formations").setAttribute("oninput", "teamRedFormation=value-0; main.displayer(2,value);");
+y.setAttribute("onclick", "main.teamCreation(2); main.rolerSetup(2);");
 	}
 }
+
 function rolerSetup(team) {
     document.getElementById("guiderText").innerHTML = "Click on a player and change roles, if needed";
     document.getElementById("guider").showModal();
     document.getElementById("formation").style.visibility ="hidden";
     if(team==1) {
         for(let i=1;i<11;i++) {
-            document.getElementById(teamOne[i].positionID).setAttribute("onclick", "roler(this.id,1); iamselected(this.id);");
-            document.getElementById("cont").setAttribute("onclick", "setForm(2);");
+            document.getElementById(teamOne[i].positionID).setAttribute("onclick", "main.roler(this.id,1); main.iamselected(this.id);");
+            document.getElementById("cont").setAttribute("onclick", "main.setForm(2);");
         }
     }
     else {
         for(let i=1;i<11;i++) {
-            document.getElementById(teamTwo[i].positionID).setAttribute("onclick", "roler(this.id,2); iamselected(this.id);");
-            document.getElementById("cont").setAttribute("onclick", "clearOutter(); setTimeout(tosser,2000);");
+            document.getElementById(teamTwo[i].positionID).setAttribute("onclick", "main.roler(this.id,2); main.iamselected(this.id);");
+            document.getElementById("cont").setAttribute("onclick", "main.clearOutter(); setTimeout(main.tosser,1000);");
         }
     }
 }
+
 function rolerSet(team) {
     document.getElementById("guiderText").innerHTML = "Click on a player and change roles";
     document.getElementById("guider").showModal();
     if(team==1) {
         for(let i=1;i<11;i++) {
-            document.getElementById(teamOne[i].positionID).setAttribute("onclick", "roler(this.id,1); iamselected(this.id);");
+            document.getElementById(teamOne[i].positionID).setAttribute("onclick", "main.roler(this.id,1); main.iamselected(this.id);");
         }
     }
     else {
         for(let i=1;i<11;i++) {
-            document.getElementById(teamTwo[i].positionID).setAttribute("onclick", "roler(this.id,2); iamselected(this.id);");
+            document.getElementById(teamTwo[i].positionID).setAttribute("onclick", "main.roler(this.id,2); main.iamselected(this.id);");
         }
     }
 }
@@ -522,7 +522,7 @@ for(let i=0;i<28;i++) {
 		     z[i].style.visibility="hidden";
              z[i].childNodes[0].style.visibility="hidden";
              z[i].childNodes[2].style.visibility="hidden";} 
-}		    
+}   
 
 function clearOutter() {
 teamRedClearer();
@@ -547,10 +547,7 @@ function buildpressPhase(team){
     anyAttacker=false;
     anyDefender=false;
     if(availManage) {
-        document.getElementById('bluemanage').style.visibility='visible';
-        document.getElementById('redmanage').style.visibility='visible';
-        availManage=false;
-    }
+        et();   }
     notifier("Build",team);
     if((half==1)&&(crntTime>=45)) {halfTime();}
     else if((half==2)&&(crntTime>=90)) {fullTime();}
@@ -564,7 +561,7 @@ function buildpressPhase(team){
             else if(teamOne[i].roles[0]=='P'||teamOne[i].roles[1]=='P'||teamOne[i].roles[2]=='P')
                 {teamOne[i].available=true; 
                  anyAttacker=true;
-                 document.getElementById(teamOne[i].positionID).setAttribute("onclick", "timeCount(); updateTimeScore(); buildMove(1,this.id);");}
+                 document.getElementById(teamOne[i].positionID).setAttribute("onclick", "main.timeCount(); main.updateTimeScore(); main.buildMove(1,this.id);");}
             else {teamOne[i].available=false;}
             
             if(teamTwo[i].health==0) {teamTwo[i].available=false;}
@@ -600,7 +597,7 @@ function buildpressPhase(team){
             else if(teamTwo[i].roles[0]=='P'||teamTwo[i].roles[1]=='P'||teamTwo[i].roles[2]=='P')
                 {teamTwo[i].available=true;
                  anyAttacker=true;
-                 document.getElementById(teamTwo[i].positionID).setAttribute("onclick", "timeCount(); updateTimeScore(); buildMove(2,this.id);");}
+                 document.getElementById(teamTwo[i].positionID).setAttribute("onclick", "main.timeCount(); main.updateTimeScore(); main.buildMove(2,this.id);");}
             else {teamTwo[i].available=false;}
                         
             if(teamOne[i].health==0) {teamOne[i].available=false;}
@@ -631,6 +628,7 @@ function buildpressPhase(team){
     
 playersDisplay();
 }
+
 function buildMove(team, id) {    
     document.getElementById('bluemanage').style.visibility='hidden';
     document.getElementById('redmanage').style.visibility='hidden';
@@ -645,7 +643,7 @@ function buildMove(team, id) {
             else {teamOne[i].lastUser=false;}
             document.getElementById(teamOne[i].positionID).setAttribute("onclick","");
             if(teamTwo[i].available==true) {
-                document.getElementById(teamTwo[i].positionID).setAttribute("onclick", "pressMove(2,this.id);");
+                document.getElementById(teamTwo[i].positionID).setAttribute("onclick", "main.pressMove(2,this.id);");
             }
         }
         notifier("Press",2);
@@ -661,13 +659,14 @@ function buildMove(team, id) {
             else {teamTwo[i].lastUser=false;}
             document.getElementById(teamTwo[i].positionID).setAttribute("onclick","");
             if(teamOne[i].available==true) {
-                document.getElementById(teamOne[i].positionID).setAttribute("onclick", "pressMove(1,this.id);");
+                document.getElementById(teamOne[i].positionID).setAttribute("onclick", "main.pressMove(1,this.id);");
             }
         }
         notifier("Press",1);
     }
     playersDisplay();
 }
+
 function pressMove(team, id) {
     playersDisplay();
     if(team==1){    
@@ -703,6 +702,7 @@ function pressMove(team, id) {
             }
     }
 }
+
 function createcontainPhase(team) {
     anyAttacker=false;
     anyDefender=false;
@@ -715,7 +715,7 @@ function createcontainPhase(team) {
             else if(teamOne[i].roles[0]=='C'||teamOne[i].roles[1]=='C'||teamOne[i].roles[2]=='C')
                 {teamOne[i].available=true;
                 anyAttacker=true;                 
-                document.getElementById(teamOne[i].positionID).setAttribute("onclick", "timeCount(); updateTimeScore(); createMove(1,this.id);");}
+                document.getElementById(teamOne[i].positionID).setAttribute("onclick", "main.timeCount(); main.updateTimeScore(); main.createMove(1,this.id);");}
             else {teamOne[i].available=false;}
             
             if(teamTwo[i].health==0) {teamTwo[i].available=false;}
@@ -746,7 +746,7 @@ function createcontainPhase(team) {
             else if(teamTwo[i].roles[0]=='C'||teamTwo[i].roles[1]=='C'||teamTwo[i].roles[2]=='C')
                 {teamTwo[i].available=true;
                   anyAttacker=true;
-                 document.getElementById(teamTwo[i].positionID).setAttribute("onclick", "timeCount(); updateTimeScore(); createMove(2,this.id);");}
+                 document.getElementById(teamTwo[i].positionID).setAttribute("onclick", "main.timeCount(); main.updateTimeScore(); main.createMove(2,this.id);");}
             else {teamTwo[i].available=false;}
             
             if(teamOne[i].health==0) {teamOne[i].available=false;}
@@ -784,7 +784,7 @@ function createMove(team, id) {
             else {teamOne[i].lastUser=false;}
             document.getElementById(teamOne[i].positionID).setAttribute("onclick","");
             if(teamTwo[i].available==true) {
-                document.getElementById(teamTwo[i].positionID).setAttribute("onclick", "containMove(2,this.id);");
+                document.getElementById(teamTwo[i].positionID).setAttribute("onclick", "main.containMove(2,this.id);");
             }
         }
         notifier("Contain",2);
@@ -799,7 +799,7 @@ function createMove(team, id) {
             else {teamTwo[i].lastUser=false;}
             document.getElementById(teamTwo[i].positionID).setAttribute("onclick","");
             if(teamOne[i].available==true) {
-                document.getElementById(teamOne[i].positionID).setAttribute("onclick", "containMove(1,this.id);");
+                document.getElementById(teamOne[i].positionID).setAttribute("onclick", "main.containMove(1,this.id);");
             }
         }
         notifier("Contain",1);
@@ -854,7 +854,7 @@ function finishsavePhase(team) {
             else if(teamOne[i].roles[0]=='F'||teamOne[i].roles[1]=='F'||teamOne[i].roles[2]=='F')
                 {teamOne[i].available=true;
                  anyAttacker=true;
-                 document.getElementById(teamOne[i].positionID).setAttribute("onclick", "finishMove(1,this.id);");}
+                 document.getElementById(teamOne[i].positionID).setAttribute("onclick", "main.finishMove(1,this.id);");}
             else {teamOne[i].available=false;}
             
             if(teamTwo[i].health==0) {teamTwo[i].available=false;}
@@ -879,7 +879,7 @@ function finishsavePhase(team) {
             else if(teamTwo[i].roles[0]=='F'||teamTwo[i].roles[1]=='F'||teamTwo[i].roles[2]=='F')
                 {teamTwo[i].available=true;
                  anyAttacker=true;
-                 document.getElementById(teamTwo[i].positionID).setAttribute("onclick", "finishMove(2,this.id);");}
+                 document.getElementById(teamTwo[i].positionID).setAttribute("onclick", "main.finishMove(2,this.id);");}
             else {teamTwo[i].available=false;}
             
             if(teamOne[i].health==0) {teamOne[i].available=false;}
@@ -1057,7 +1057,7 @@ function updateTimeScore() {
         }
         document.getElementById("bscore").innerHTML = blueScore;
     document.getElementById("rscore").innerHTML = redScore;
-}  
+}
 
 function timeCount() {
     crntTime++;
@@ -1097,44 +1097,35 @@ function timeCount() {
 }
 
 function halfTime() {
-    document.getElementById("guiderText").innerHTML = "Half time";
-    document.getElementById("guider").showModal();
     refresh(1);
     crntTime=45;
     half=2;
-    document.getElementById('bluemanage').style.visibility='visible';
-    document.getElementById('redmanage').style.visibility='visible';
     document.getElementById('proceed').style.visibility='visible';
-    availManage=false;
+    et();
+    
 }
 
-function fullTime() {             
+function fullTime() {   
     if(blueScore>redScore) {resulter(1);}
     else if(redScore>blueScore) {resulter(2);}
     else {
         crntTime=90;
         refresh(2);
         half=3;
-        document.getElementById('bluemanage').style.visibility='visible';
-        document.getElementById('redmanage').style.visibility='visible';
-        availManage=false;
         resulter(0);
     }
 }
 
 function extraHalfTime() {
-    document.getElementById("guiderText").innerHTML = "Half time in extra time";
-    document.getElementById("guider").showModal();
     crntTime=105;
     refresh(3);
     half=4;
-    document.getElementById('bluemanage').style.visibility='visible';
-    document.getElementById('redmanage').style.visibility='visible';
     document.getElementById('proceed').style.visibility='visible';
-    availManage=false;
+    et();
 }
 
 function extraFullTime() {
+    manageClearer();
     if(blueScore>redScore) {resulter(1);}
     else if(redScore>blueScore) {resulter(2);}
     else {quickPS();}
@@ -1154,16 +1145,16 @@ function subAndRole(team) {
     z.style.visibility="visible";
     document.getElementById("guiderText").innerHTML = "Click on substitute or adjust role button to do so. Click continue to return to game.";
     document.getElementById("guider").showModal();
-    if(currentPossession==1) {z.setAttribute("onclick", "clearOutter(); playersDisplay(); buildpressPhase(1);");}
-    else {z.setAttribute("onclick", "clearOutter(); playersDisplay(); buildpressPhase(2);");}
+    if(currentPossession==1) {z.setAttribute("onclick", "main.clearOutter(); main.playersDisplay(); main.buildpressPhase(1);");}
+    else {z.setAttribute("onclick", "main.clearOutter(); main.playersDisplay(); main.buildpressPhase(2);");}
     if(team==1){
         for(let i=0;i<11;i++) {
             teamOne[i].available=true;
             teamOne[i].displaySelfer();
         }
         document.getElementById('bluemanage').style.visibility='hidden';
-        x.setAttribute('onclick', 'rolerSet(1);');
-        y.setAttribute('onclick', 'subber(1);');
+        x.setAttribute('onclick', 'main.rolerSet(1);');
+        y.setAttribute('onclick', 'main.subber(1);');
         teamRedClearer();
     }
     else {
@@ -1172,8 +1163,8 @@ function subAndRole(team) {
             teamTwo[i].displaySelfer();
         }
         document.getElementById('redmanage').style.visibility='hidden';
-        x.setAttribute('onclick', 'rolerSet(2);');
-        y.setAttribute('onclick', 'subber(2);');
+        x.setAttribute('onclick', 'main.rolerSet(2);');
+        y.setAttribute('onclick', 'main.subber(2);');
         teamBlueClearer();
     }
 }
@@ -1183,12 +1174,12 @@ function subber(team) {
     document.getElementById("guider").showModal();                
     if(team==1) {
         for(let i=0;i<11;i++) {
-            document.getElementById(teamOne[i].positionID).setAttribute('onclick', 'subme(this.id,1); iamselected(this.id);');
+            document.getElementById(teamOne[i].positionID).setAttribute('onclick', 'main.subme(this.id,1); main.iamselected(this.id);');
         }
     }
     else {
         for(let i=0;i<11;i++) {
-            document.getElementById(teamTwo[i].positionID).setAttribute('onclick', 'subme(this.id,2); iamselected(this.id);');
+            document.getElementById(teamTwo[i].positionID).setAttribute('onclick', 'main.subme(this.id,2); main.iamselected(this.id);');
         }
     }
 }
@@ -1240,10 +1231,12 @@ if(tm==1) {r.style.backgroundColor="blue";}
 if(tm==2) {r.style.backgroundColor="red";}
 document.getElementById("phaseGuide").style.visibility="visible";                
 }
+
 function manageClearer() {
     document.getElementById('bluemanage').style.visibility='hidden';
     document.getElementById('redmanage').style.visibility='hidden';
 }
+
 function flasherDisplay(message,team) {
     let x=document.getElementById('flasherstext');
     if(team==1) {x.style.color="blue";}
@@ -1254,3 +1247,5 @@ function flasherDisplay(message,team) {
         document.getElementById('flashers').style.visibility='visible';
         setTimeout(()=>{document.getElementById('flashers').style.visibility='hidden';},2000);    
 }
+return {buildMove, buildpressPhase, clearOutter, containMove, createcontainPhase, createMove, displayer, enterNames, et, extraFullTime, extraHalfTime, finishMove, finishsavePhase, flasherDisplay, fullTime, gameStart, halfTime, iamselected, manageClearer, notifier, playersDisplay, pressMove, quickPS, refresh, resetDropdown, resulter, roler, rolerSet, rolerSetup, saveMove, setForm, subAndRole, subber, subme, teamBlueClearer, teamCreation, teamRedClearer, timeCount, tosser, updateRoles, updateTimeScore}
+})();

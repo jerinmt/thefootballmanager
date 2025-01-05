@@ -1,6 +1,3 @@
-let secondhalfstarter;
-let teamBlueFormation;
-let teamRedFormation;
 function unavailable(myid) {
   let x=document.getElementById(myid);
   x.style.opacity = "0.3";
@@ -9,7 +6,7 @@ function unavailable(myid) {
 function iamavailable(myid) {
     let x=document.getElementById(myid);
     x.style.opacity = "1";
-    }
+}
  
 class player {
     constructor(team,numbr,posn,formation,formTeam) {
@@ -101,6 +98,8 @@ let injuryTime=0;
 let half=1;
 let attacker, defender;
 let anyAttacker, anyDefender;
+let teamBlueFormation;
+let teamRedFormation;
 
 function teamCreation(team) {
     const formTeam = [1,1,2,2,3,3,4,4,5,5,6,6,7,7,8,8,9,9,10,10];
@@ -162,7 +161,9 @@ function teamCreation(team) {
 
 function displayer(team,formation) {
 	let x,d,m,f,p,q,r;
-	f = formation % 10;
+    if(team==1) {teamBlueFormation=formation-0;}
+    if(team==2) {teamRedFormation=formation-0;}
+    f = formation % 10;
 	formation=(formation-f)/10;
 	m = formation % 10;
 	formation=(formation-m)/10;
@@ -378,7 +379,7 @@ x.style.visibility ="visible";
 let y=document.getElementById("cont");
 y.style.visibility="visible";
 if(team==1) {
-	document.getElementById("formations").setAttribute("oninput", "teamBlueFormation=value-0; main.displayer(1,value);");
+	document.getElementById("formations").setAttribute("oninput", "main.displayer(1,value);");
 y.setAttribute("onclick", "main.teamCreation(1); main.rolerSetup(1);");
 }
 else if(team==2){
@@ -1102,7 +1103,6 @@ function halfTime() {
     half=2;
     document.getElementById('proceed').style.visibility='visible';
     et();
-    
 }
 
 function fullTime() {   
@@ -1219,8 +1219,12 @@ function gameStart(tm) {
 let y=document.getElementsByClassName("flex-container2");
 y[0].style.visibility="hidden";
 document.getElementById("scorecard").style.visibility="visible";
-if(tm==1) {secondhalfstarter=2;}
-else {secondhalfstarter=1;}
+if(tm==1) {
+    document.getElementById('proceed').setAttribute('onclick', 'main.manageClearer(); main.buildpressPhase(2);');    
+}
+else {
+    document.getElementById('proceed').setAttribute('onclick', 'main.manageClearer(); main.buildpressPhase(1);');
+}
 buildpressPhase(tm);
 }
 

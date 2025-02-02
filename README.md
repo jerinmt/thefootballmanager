@@ -104,7 +104,8 @@ Completed project, but open to further ideas if any
 2 February 2025
 
 Upon suggestions by ollabrains, added comments to the code and will soon also work on implementing OOP.
-Replaced onclick attributes with event listeners as it is best practice and also removes the possibility of accessing functions from console. Now no functions are returned so all functions and variables are now private. The main function initialise one button that will kick start the chain of events as the game is written like a chain reaction. 
+Replaced onclick attributes with event listeners as it is best practice and also removes the possibility of accessing functions from console. Now no functions are returned so all functions and variables are now private. The main function initialise one button that will kick start the chain of events as the game is written like a chain reaction.
+Also splitted the css code from game.html file into a separate css file.
 
 TODO
 Reducing excessive nesting.

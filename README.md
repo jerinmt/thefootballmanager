@@ -107,6 +107,15 @@ Upon suggestions by ollabrains, added comments to the code and will soon also wo
 Replaced onclick attributes with event listeners as it is best practice and also removes the possibility of accessing functions from console. Now no functions are returned so all functions and variables are now private. The main function initialise one button that will kick start the chain of events as the game is written like a chain reaction.
 Also splitted the css code from game.html file into a separate css file.
 
+3 February 2025
+
+Fixed two issues:
+
+1) The role update dialog box doesn't show the current assigned roles. It gets reset even though it didn't affect the roles assigned to the player, only the displayed ones are wrong. Added the assigned roles also to the dialog box, along with a cancel button to close the dialog box without updating any changes.
+
+2) During the formation selection if the player accidentally clicks the continue button nothing happens and it gets stuck as the eventlistener will be removed. So added a default formation of 442 in case that happens. So now 442 will be preselected and players can change if they wish to.
+
+
 TODO
 Reducing excessive nesting.
 Will look into implementing classes.

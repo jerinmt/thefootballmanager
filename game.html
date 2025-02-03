@@ -112,8 +112,7 @@
 		<form>
 			<label for="formations" style="color:white; font-size:200%;">Formation</label><br>
 			<select id="formations" name="formations" style="font-size:150%;">
-				<option value="0">----</option>
-	  			<option value="442">4-4-2</option>
+				<option value="442" selected>4-4-2</option>
 				<option value="433">4-3-3</option>
 				<option value="343">3-4-3</option>
 				<option value="352">3-5-2</option>
@@ -131,7 +130,7 @@
 	<dialog class="role" id="defrole">
 		<p style="color:white;"><b><u>Fixed Roles</b></u><br>CONTAIN<br>PRESS</p>
 		<form style="text-align:center; color:white;">
-			<label style="color:white; text-align: center;"><b><u>Extra role</u></b></label><br><p id="defextra"></p><br>
+			<label style="color:white; text-align:center;"><b><u>Extra role</u></b></label><br><p id="defextra"></p>
 			<select id="defroles" name="defroles">
 				<option value="N">NONE</option>
 				<option value="BUILD">BUILD</option>
@@ -139,11 +138,12 @@
 			</select>
 		</form><br>
 		<button type="button"  id='updater1' onclick="document.getElementById('defrole').close();">Update</button>
+		<button type="button" onclick="document.getElementById('defrole').close();">Cancel</button>
 	</dialog>
 	<dialog class="role" id="midrole">
 		<p style="color:white;"><b><u>Fixed Roles</b></u><br>BUILD<br>CREATE</p>
 		<form style="text-align:center; color:white;">
-			<label style="color:white; text-align: center;"><b><u>Extra role</u></b></label><br><p id="midextra"></p><br>
+			<label style="color:white; text-align:center;"><b><u>Extra role</u></b></label><br><p id="midextra"></p>
 			<select id="midroles" name="midroles">
 				<option value="N">NONE</option>
 				<option value="CONTAIN">CONTAIN</option>
@@ -152,19 +152,20 @@
 			</select>
 		</form><br>
 		<button type="button"  id='updater2' onclick="document.getElementById('midrole').close();">Update</button>
+		<button type="button" onclick="document.getElementById('midrole').close();">Cancel</button>
 	</dialog>	
 	<dialog class="role" id="fwdrole">
 		<p style="color:white;"><b><u>Fixed Role</b></u><br>FINISH</p>
 		<form style="text-align:center; color:white;">
-			<label style="color:white; text-align: center;"><b><u>Extra roles</u></b></label><br>
-			<p id="fwdextra1"></p><br>
+			<label style="color:white; text-align:center;"><b><u>Extra roles</u></b></label><br>
+			<p id="fwdextra1"></p>
 			<select id="fwdroles1" name="fwdroles">
 				<option value="N">NONE</option>
 				<option value="PRESS">PRESS</option>
 				<option value="BUILD">BUILD</option>
 				<option value="CREATE">CREATE</option>
 			</select><br>
-			<p id="fwdextra2"></p><br>
+			<p id="fwdextra2"></p>
 			<select id="fwdroles2" name="fwdroles">
 				<option value="N">NONE</option>
 				<option value="PRESS">PRESS</option>
@@ -173,6 +174,7 @@
 			</select>
 		</form><br>
 		<button type="button" id='updater3' onclick="document.getElementById('fwdrole').close();">Update</button>
+		<button type="button" onclick="document.getElementById('fwdrole').close();">Cancel</button>
 	</dialog>
 	
 	<table id="scorecard" style="font-size:200%; position:absolute; top:3%; left:4%; background-color:black;">

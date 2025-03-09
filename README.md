@@ -115,12 +115,16 @@ Fixed two issues:
 
 2) During the formation selection if the player accidentally clicks the continue button nothing happens and it gets stuck as the eventlistener will be removed. So added a default formation of 442 in case that happens. So now 442 will be preselected and players can change if they wish to.
 
+9 March 2025
+
+Added randomness to shooting with goalie present. Similar to the situation with goalkeeper unavailable. Now shooting can miss in all situations. This is to reduce the excessive goal count in a bad defence and goalie situation relatable to real life.
 
 TODO
 Reducing excessive nesting.
 Will look into implementing classes.
-Considering adding sounds
+Adding sounds
 In future implementing online play.
 Consider making a mobile app version.
+Implement more formation
 
 

@@ -1,4 +1,4 @@
-﻿//A class that defines a player
+//A class that defines a player
 class player {
   constructor(team,numbr,posn,formation,formTeam){
     this.team=team;//1 for blue 2 for red
@@ -1068,10 +1068,8 @@ function saveMove(team) {
       teamOne[0].lastUser=true;
       if(teamOne[0].health!=0) {teamOne[0].health--;}
       if(attacker>defender) {//compare skills
-        redScore++;
-        flasherDisplay("GOAL",2);
-        timeCount();
-        buildpressPhase(1);
+        let rvalue=attacker-defender;//goalkeeper beaten
+        redShoot(rvalue);
       }
       else if(attacker==defender) {
         flasherDisplay("REBOUND",2);
@@ -1084,14 +1082,7 @@ function saveMove(team) {
       }
     }
     else {//if blue goalie is not available
-      let u=Math.floor(Math.random()*100);
-      if(u>(67+attacker*3)) {flasherDisplay("MISS",2);}
-      else { 
-        redScore++;
-        flasherDisplay("GOAL",2);
-      }
-      timeCount();
-      buildpressPhase(1);
+      redShoot(attacker);
     }
   }
   else if(team==2){
@@ -1103,10 +1094,8 @@ function saveMove(team) {
       teamTwo[0].lastUser=true;
       if(teamTwo[0].health!=0) {teamTwo[0].health--;}
       if(attacker>defender) {//compare skills
-        blueScore++;
-        flasherDisplay("GOAL",1);
-        timeCount();
-        buildpressPhase(2);
+        let bvalue=attacker-defender;//goalkeeper beaten
+        blueShoot(bvalue);
       }
       else if(attacker==defender) {
         flasherDisplay("REBOUND",1);
@@ -1119,17 +1108,31 @@ function saveMove(team) {
       }
     }
     else {//if red goalie is not available
-      let u=Math.floor(Math.random()*100);
-      if(u>(67+attacker*3)) {flasherDisplay("MISS",1);}
+      blueShoot(attacker);
+    }
+  }
+}
+function redShoot(value) {//red's shooting action with randomness
+  let u=Math.floor(Math.random()*100);
+      if(u>(67+value*3)) {flasherDisplay("MISS",2);}
+      else { 
+        redScore++;
+        flasherDisplay("GOAL",2);
+      }
+      timeCount();
+      buildpressPhase(1);
+}
+function blueShoot(value) {//blue's shooting action with randomness
+  let u=Math.floor(Math.random()*100);
+      if(u>(67+value*3)) {flasherDisplay("MISS",1);}
       else { 
         blueScore++;
         flasherDisplay("GOAL",1);
       }
       timeCount();
       buildpressPhase(2);
-    }
-  }
 }
+
 //display time and score
 function updateTimeScore() {
   switch(half) {//checks to display injury time

@@ -310,7 +310,7 @@ function displayer(team,formation) {
 }
 //function that creates a team after the formation is selected
 function teamCreation(team) {
-  const formTeam = [1,1,2,2,3,3,4,4,5,5,6,6,7,7,8,8,9,9,10,10];//the set of skill values of players
+  const formTeam = [1, 2, 3, 3, 4, 4, 4, 5, 5, 5, 6, 6, 6, 7, 7, 7, 8, 8, 9, 10];//the set of skill values of players
   for (let i=19;i>0;i--) {//randomizing the skill values
     let j = Math.floor(Math.random() * (i+1));
     let k = formTeam[i];
